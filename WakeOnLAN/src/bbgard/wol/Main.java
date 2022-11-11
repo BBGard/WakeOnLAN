@@ -15,6 +15,8 @@ public class Main {
 		
 		// Start the program
 		controller.begin();
+		
+		// Delete this, just a commit message
 	}
 
 }
