@@ -5,6 +5,8 @@ package bbgard.wol;
 
 import java.util.Scanner;
 
+import org.eclipse.swt.widgets.Button;
+
 import bbgard.wol.ui.MainWindow;
 
 /**
@@ -34,8 +36,20 @@ public class Controller {
 //		theModel.sendMagicPacket(ipAddr, macAddr);
 		
 		// Show the UI
-		theWindow = new MainWindow();
+		theWindow = new MainWindow(this);
 		theWindow.open();
+		
 	}
 
+	/*
+	 * Calls wakeDevice function in Model
+	 */
+	public void wakeDevice(String text, String text2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+	
 }
