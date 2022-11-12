@@ -44,9 +44,8 @@ public class Controller {
 	/*
 	 * Calls wakeDevice function in Model
 	 */
-	public void wakeDevice(String text, String text2) {
-		// TODO Auto-generated method stub
-		
+	public String wakeDevice(String ipAddr, String macAddr) {
+		return theModel.sendMagicPacket(ipAddr, macAddr);
 	}
 
 	

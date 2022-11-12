@@ -14,7 +14,7 @@ public class Model {
 	private final int PORT = 9; // The port to send the magic packet to UDP port 9
 
 	// Sends a magic packet to the specified IP and MAC address
-	public void sendMagicPacket(String ipToWake, String macToWake) {
+	public String sendMagicPacket(String ipToWake, String macToWake) {
 
 		// Takes a 6 byte MAC address and converts it into a 102 byte address
 		// see: http://www.jibble.org/wake-on-lan/ for a basic explanation
@@ -42,10 +42,10 @@ public class Model {
 			socket.send(packet);
 			socket.close();
 
-			System.out.println("Wake-on-LAN packet sent.");
-		} catch (Exception e) {
-			System.out.println("Failed to send Wake-on-LAN packet: + e");
-			System.exit(1);
+			return "Wake-on-LAN packet sent to " + macToWake;
+		} catch (Exception e) {			
+			//System.exit(1);
+			return e.getMessage();
 		}
 
 	}

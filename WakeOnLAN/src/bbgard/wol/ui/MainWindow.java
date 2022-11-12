@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 
@@ -24,9 +25,12 @@ public class MainWindow {
 	protected Shell shlWakeOnLan;		// The Shell
 	private Controller theController;	// Reference to the Controller
 
-	private Text textIP;	// IP address String
-	private Text textMAC;	// MAC address String
-	private Button btnWake;	// Wake button
+	private Text textIP;				// IP address String
+	private Text textMAC;				// MAC address String
+	private Button btnWake;				// Wake button
+	private Label lblMessages;			// Used to display messages to user
+	
+//	private Feedback feedback;			// Feedback class that stores all error messages & feedback
 	
 	/**
 	 * Constructor - sets the Controller reference
@@ -157,6 +161,13 @@ public class MainWindow {
 		btnWake.setFont(SWTResourceManager.getFont("Segoe UI", 11, SWT.NORMAL));
 		btnWake.setBounds(452, 126, 96, 45);
 		btnWake.setText("Wake");
+		
+		lblMessages = new Label(grpAddressPanel, SWT.NONE);
+		lblMessages.setAlignment(SWT.RIGHT);
+		lblMessages.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		lblMessages.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblMessages.setFont(SWTResourceManager.getFont("Segoe UI Semibold", 11, SWT.ITALIC));
+		lblMessages.setBounds(58, 257, 542, 34);
 
 		// Disable button until IP and MAC have been entered?
 		// btnWake.setEnabled(false);
@@ -168,10 +179,10 @@ public class MainWindow {
 			public void widgetSelected(SelectionEvent e) {
 				// If IP and MAC are valid, ask controller to wake device
 				if (isIpValid() && isMacValid()) {
-					theController.wakeDevice(textIP.getText(), textMAC.getText());
+					lblMessages.setText(theController.wakeDevice(textIP.getText(), textMAC.getText()));
 				}
 				else {
-					System.out.println("Show error here!");
+					lblMessages.setText(Feedback.INVALID_ADDRESS);
 				}
 			}
 		}); // End Wake button
@@ -186,7 +197,7 @@ public class MainWindow {
 				// Verify that first digit is not zero
 				if(textIP.getText().length() == 0 && e.keyCode == '0') {
 					e.doit = false;
-					//lblErrorMessage.setText("First digit must be 1-255.");			
+					lblMessages.setText(Feedback.ZERO_IP);			
 				} 
 				// Allow arrow keys and delete/backspace and full stop
 				else if (e.keyCode == SWT.ARROW_LEFT || e.keyCode == SWT.ARROW_RIGHT || e.keyCode == SWT.BS || e.keyCode == SWT.DEL || e.keyCode == SWT.KEYPAD_DECIMAL) {
@@ -201,11 +212,11 @@ public class MainWindow {
 						allow = allowedCharacters.indexOf(c) > -1;
 						
 						if(!allow) {
-							//lblErrorMessage.setText("Please enter a valid number.");
+							lblMessages.setText(Feedback.INVALID_IP);
 							break;
 						}
 						else {
-							//lblErrorMessage.setText("");
+							lblMessages.setText("");
 						}
 					}
 					e.doit = allow;
@@ -220,13 +231,13 @@ public class MainWindow {
 	 * Checks for a valid IP address in the textIp field
 	 */
 	private Boolean isIpValid() {
-		return false;
+		return true;
 	}
 	
 	/**
 	 * Checks for a valid MAC address in the textMac field
 	 */
 	private Boolean isMacValid() {
-		return false;
+		return true;
 	}
 }
