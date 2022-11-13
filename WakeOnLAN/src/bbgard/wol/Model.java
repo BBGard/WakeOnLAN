@@ -8,6 +8,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import bbgard.wol.ui.Feedback;
 
@@ -110,5 +112,17 @@ public class Model {
 			throw new IllegalArgumentException("Invalid hex digit in MAC address.");
 		}
 		return bytes;
+	}
+	
+	/**
+	 * Checks for a valid MAC address using the regex pattern
+	 * Checks for MAC addresses in many formats
+	 */
+	public Boolean isMacValid(String mac) {
+		
+		Pattern p = Pattern.compile("([MACmac]?){1}([:.-]?){1}(([0-9A-Fa-f]{2,3}[:.-]?){4,6})");
+        Matcher m = p.matcher(mac);
+        return m.find();
+		
 	}
 }

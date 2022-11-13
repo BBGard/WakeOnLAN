@@ -4,6 +4,8 @@
 package bbgard.wol;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.widgets.Button;
 
@@ -40,7 +42,12 @@ public class Controller {
 		return theModel.sendMagicPacket(macAddr);
 	}
 
-	
+	/**
+	 * Checks for a valid MAC address 
+	 */
+	public Boolean isMacValid(String mac) {
+		return theModel.isMacValid(mac);		
+	}
 
 	
 }
