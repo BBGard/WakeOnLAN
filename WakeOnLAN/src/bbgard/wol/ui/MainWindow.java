@@ -2,6 +2,9 @@ package bbgard.wol.ui;
 
 
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -166,8 +169,8 @@ public class MainWindow {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// MAC address is valid, ask controller to wake device
-				if (isMacValid()) {
+				// if MAC address is valid, ask controller to wake device
+				if (theController.isMacValid(textMAC.getText())) {
 					lblMessages.setText(theController.wakeDevice(textMAC.getText()));
 				}
 				else {
@@ -177,10 +180,5 @@ public class MainWindow {
 		});
 	}
 	
-	/**
-	 * Checks for a valid MAC address in the textMac field
-	 */
-	private Boolean isMacValid() {
-		return true;
-	}
+	
 }
