@@ -2,6 +2,7 @@ package bbgard.wol.ui;
 
 
 
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,8 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.widgets.List;
 
 
 public class MainWindow {
@@ -32,6 +35,7 @@ public class MainWindow {
 	private Text textMAC;				// MAC address String
 	private Button btnWake;				// Wake button
 	private Label lblMessages;			// Used to display messages to user
+	private List recentList;				// List of the last 5 MAC addresses
 	
 //	private Feedback feedback;			// Feedback class that stores all error messages & feedback
 	
@@ -137,6 +141,10 @@ public class MainWindow {
 
 		TabItem tbtmRecent = new TabItem(tabConnections, SWT.NONE);
 		tbtmRecent.setText("Recent");
+		
+		recentList = new List(tabConnections, SWT.BORDER);
+		recentList.setBounds(0, 0, 100, 100);
+		tbtmRecent.setControl(recentList);
 
 		TabItem tbtmSaved = new TabItem(tabConnections, SWT.NONE);
 		tbtmSaved.setText("Saved");
@@ -172,13 +180,37 @@ public class MainWindow {
 				// if MAC address is valid, ask controller to wake device
 				if (theController.isMacValid(textMAC.getText())) {
 					lblMessages.setText(theController.wakeDevice(textMAC.getText()));
+					
+					// Save the MAC to recents
+					addAddressToRecent(textMAC.getText());
 				}
 				else {
 					lblMessages.setText(Feedback.INVALID_MAC);
 				}
-			}
+			}			
 		});
 	}
 	
-	
+	/**
+	 * Saves the input MAC address to the recent list.
+	 * If the MAC address does not already exist
+	 * @param macAddr
+	 */
+	private void addAddressToRecent(String macAddr) {
+		boolean inList = false;
+		
+		// Loop through recent list looking for matches
+		for (String address : recentList.getItems()) {
+			if(address.equals(macAddr)) {
+				inList = true;
+			}
+		}
+		
+		// If no matches, add to 
+		//	TODO check for list length first 
+		if(!inList) {
+			recentList.add(macAddr);
+		}
+		
+	}
 }
