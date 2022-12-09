@@ -170,6 +170,11 @@ public class MainWindow {
 
 		// Disable button until IP and MAC have been entered?
 		// btnWake.setEnabled(false);
+		
+		// TODO trigger a network scan and populate the list of discovered addresses
+		//theController.getActiveMacs();
+		//System.out.println("done...");
+
 
 		
 		// Wake button
